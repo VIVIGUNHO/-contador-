@@ -49,81 +49,60 @@ function calculateRemainingTime(referenceDate, todayDate) {
         timeLeft -= ONE_SECOND
     }
 
-    return {
+    return [
         yearsLeft,
         monthsLeft,
         daysLeft,
         hoursLeft,
         minutesLeft,
         secondsLeft
-    }
+    ]
 }
 
-function textBuilder(remainingTime) {
+function textBuilder(years, months, days, hours, minutes, seconds) { 
     let result = []
-
-    if (remainingTime.yearsLeft > 0) {
-        if (remainingTime.yearsLeft > 1) {
-            result.push(`${yearsLeft} years`)
-        } else {
-            result.push(`${yearsLeft} year`)
-        }
+    if (years) {
+        result.push(`${years} ${years >1 ? "years" : "year"}`)
     }
 
-    if (remainingTime.monthsLeft > 0) {
-        if (remainingTime.monthsLeft > 1) {
-            result.push(`${monthsLeft} months`)
-        } else {
-            result.push(`${monthsLeft} month`)
-        }
+
+    if (months) {
+        result.push(`${months} ${months >1 ? "months" : "month"}`)
     }
 
-    if (remainingTime.daysLeft > 0) {
-        if (remainingTime.daysLeft > 1) {
-            result.push(`${daysLeft} days`)
-        } else {
-            result.push(`${daysLeft} day`)
-        }
+
+    if (days) {
+        result.push(`${days} ${days >1 ? "days" : "day"}`)
     }
 
-    if (remainingTime.hoursLeft > 0) {
-        if (remainingTime.hoursLeft > 1) {
-            result.push(`${hoursLeft} hours`)
-        } else {
-            result.push(`${hoursLeft} hour`)
-        }
+
+    if (hours) {
+        result.push(`${hours} ${hours >1 ? "hours" : "hour"}`)
     }
 
-    if (remainingTime.minutesLeft > 0) {
-        if (remainingTime.minutesLeft > 1) {
-            result.push(`${minutesLeft} minutes`)
-        } else {
-            result.push(`${minutesLeft} minute`)
-        }
+
+    if (minutes) {
+        result.push(`${minutes} ${minutes >1 ? "minutes" : "minute"}`)
     }
 
-    if (remainingTime.secondsLeft > 0) {
-        if (remainingTime.secondsLeft > 1) {
-            result.push(`${secondsLeft} minutes`)
-        } else {
-            result.push(`${secondsLeft} minute`)
-        }
+
+    if (seconds) {
+        result.push(`${seconds} ${seconds >1 ? "seconds" : "seconds"}`)
     }
+    if (!result) {
+        return "COMPLETED"
+    }
+    return result.join(",  ")
 }
 
-const dataReferencia = new Date("2028", "01", "01").getTime()
-const dataHoje = new Date().getTime()
+ function onInputChange() {
+const [year, month, day] = input.value.split("-")
+ const referenceDate = new Date(year, month - 1, day).getTime()
+ const todayDate = new Date().getTime()
 
-let resultado = calculateRemainingTime(dataReferencia, dataHoje)
-console.log(resultado)
+ let remainingTime = calculateRemainingTime(referenceDate, todayDate)
+ let text = textBuilder(...remainingTime)
+ output.textContent = text
+ }
 
-
-
-
-
-
-
-
-
-
- 
+  input.addEventListener("change", onInputChange); 
